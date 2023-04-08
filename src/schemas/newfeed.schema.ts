@@ -43,4 +43,4 @@ export class NewFeed extends BaseRootDocument {
   allIdReact?: string[];
 }
 
-export const NewfeedSchema = SchemaFactory.createForClass(NewFeed);
+export const NewFeedSchema = SchemaFactory.createForClass(NewFeed);
