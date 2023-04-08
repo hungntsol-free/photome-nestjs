@@ -6,6 +6,10 @@ import { CreateResult, UpdateResult, RemoveResult } from './persist-data.model';
 export abstract class PersistData<T> {
   constructor(protected readonly model: mongoose.Model<T>) {}
 
+  asModel(): mongoose.Model<T> {
+    return this.model;
+  }
+
   /**
    * Save new document.
    */

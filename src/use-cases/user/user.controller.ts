@@ -1,5 +1,21 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { AuthService, SignIn, SignUp } from '@providers/auth';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  AuthService,
+  SignIn,
+  SignUp,
+  AuthPayload,
+  AuthGuard,
+} from '@providers/auth';
+import { Request as ExpressRequest } from 'express';
 import { SignInRequest, SignUpRequest } from './user.request';
 
 @Controller('api/user')
@@ -25,5 +41,14 @@ export class LoginController {
     return await this.authService.signIn(
       new SignIn(request.email, request.password),
     );
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('user')
+  @HttpCode(HttpStatus.OK)
+  async getUser(
+    @Request() req: ExpressRequest & Record<'authPayload', AuthPayload>,
+  ) {
+    return this.authService.currentUser(req.authPayload);
   }
 }

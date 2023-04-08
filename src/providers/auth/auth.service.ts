@@ -13,6 +13,7 @@ import { InjectLoggerContext, Logger } from '@providers/logger';
 import { User } from '@schemas';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { AuthPayload } from './auth.payload';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class AuthService {
@@ -72,6 +73,18 @@ export class AuthService {
   }
 
   /**
+   * Get current user of context.
+   */
+  async currentUser(payloadCtx: AuthPayload): Promise<User> {
+    const user = await this.collection
+      .asModel()
+      .findById(payloadCtx.id)
+      .select('-password');
+
+    return user;
+  }
+
+  /**
    * Check if email is already used.
    */
   private async isEmailExisted(email: string): Promise<boolean> {
@@ -84,8 +97,13 @@ export class AuthService {
     return false;
   }
 
+  /**
+   * Sign a JWT access token.
+   * @param user User instance
+   * @returns access token
+   */
   private async signJwtToken(user: User): Promise<string> {
-    const payload = { id: user.id, email: user.email };
+    const payload: AuthPayload = { id: user.id, email: user.email };
     return await this.jwtService.signAsync(payload);
   }
 }
