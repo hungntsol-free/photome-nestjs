@@ -4,7 +4,7 @@ import { toLoggerContextToken } from './logger.token';
 
 const loggerFactory = (logger: Logger, context: string): Logger => {
   if (context) {
-    logger.setContext(context);
+    logger.setContext(`App${context}`);
   }
 
   return logger;

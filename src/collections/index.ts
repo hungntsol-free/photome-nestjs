@@ -1,1 +1,1 @@
-export * from './module';
+export * from './collection.module';

@@ -1,1 +1,1 @@
-export const toLoggerContextToken = (context: string) => `App${context}`;
+export const toLoggerContextToken = (context: string) => `Token${context}`;

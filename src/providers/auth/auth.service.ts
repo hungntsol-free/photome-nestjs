@@ -1,4 +1,4 @@
-import { SignInDto, SignUpInfoDto } from './auth.dto';
+import { OnAuthResponse, SignIn, SignUp } from './auth.model';
 
 import {
   BadRequestException,
@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { UserCollectionProvider } from '@collections/providers';
 import { InjectLoggerContext, Logger } from '@providers/logger';
-import * as argon2 from 'argon2';
 import { User } from '@schemas';
+import * as argon2 from 'argon2';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class AuthService {
@@ -19,6 +20,7 @@ export class AuthService {
 
   constructor(
     private readonly collection: UserCollectionProvider,
+    private readonly jwtService: JwtService,
     @InjectLoggerContext(AuthService.name) private readonly logger: Logger,
   ) {}
 
@@ -27,10 +29,7 @@ export class AuthService {
    * @param dto
    * @returns access token and user information.
    */
-  async signIn(dto: SignInDto): Promise<{
-    token: string;
-    user: { id: string; name: string; email: string };
-  }> {
+  async signIn(dto: SignIn): Promise<OnAuthResponse> {
     const user = await this.collection.findOneAsync({ email: dto.email });
 
     if (!user) {
@@ -43,10 +42,7 @@ export class AuthService {
       throw new BadRequestException({ msg: this.CREDENTIAL_INCORRECT_ERROR });
     }
 
-    return {
-      token: '',
-      user: { id: user.id, name: user.name, email: user.email },
-    };
+    return new OnAuthResponse(await this.signJwtToken(user), user);
   }
 
   /**
@@ -54,7 +50,7 @@ export class AuthService {
    * @param dto
    * @return id of created document.
    */
-  async signUp(dto: SignUpInfoDto): Promise<{ id: string }> {
+  async signUp(dto: SignUp): Promise<OnAuthResponse> {
     if (await this.isEmailExisted(dto.email)) {
       throw new HttpException({ msg: 'User existed' }, HttpStatus.BAD_REQUEST);
     }
@@ -66,11 +62,11 @@ export class AuthService {
       const { id } = await this.collection.saveAsync(user);
 
       this.logger.log(`Create new user {email: ${user.email}}`);
+      user.id = id;
 
-      return { id };
+      return new OnAuthResponse(await this.signJwtToken(user), user);
     } catch (error) {
       this.logger.error(error);
-
       throw new InternalServerErrorException();
     }
   }
@@ -86,5 +82,10 @@ export class AuthService {
     }
 
     return false;
+  }
+
+  private async signJwtToken(user: User): Promise<string> {
+    const payload = { id: user.id, email: user.email };
+    return await this.jwtService.signAsync(payload);
   }
 }
