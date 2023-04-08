@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@collections": ["src/collections"],
+      "@collections/*": ["src/collections/*"],
       "@middlewares": ["src/middlewares"],
       "@providers/*": ["src/providers/*"],
       "@schemas": ["src/schemas"],
