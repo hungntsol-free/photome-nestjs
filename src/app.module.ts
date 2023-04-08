@@ -1,10 +1,11 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { NestModule } from '@nestjs/common';
 import { DbCollectionModule } from '@collections';
 import { AppLoggerModule } from '@providers/logger';
-import { NestModule } from '@nestjs/common';
 import { RequestLoggerMiddleware } from '@middlewares';
-import { UserModule } from '@use-cases/user';
-import { ConfigModule } from '@nestjs/config';
+import { UserModule } from '@use-cases/users';
+import { AccountModule } from '@use-cases/accounts';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     AppLoggerModule.forRoot(),
     DbCollectionModule,
     UserModule,
+    AccountModule,
   ],
   controllers: [],
   providers: [],
