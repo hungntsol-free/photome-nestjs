@@ -20,7 +20,7 @@
     "paths": {
       "@collections": ["src/collections"],
       "@middlewares": ["src/middlewares"],
-      "@providers/*": ["src/providers"],
+      "@providers/*": ["src/providers/*"],
       "@schemas": ["src/schemas"],
       "@use-cases": ["src/use-cases"],
       "@use-cases/*": ["src/use-cases/*"]
