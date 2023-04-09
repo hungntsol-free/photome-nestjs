@@ -6,6 +6,7 @@ import { AppLoggerModule } from '@providers/logger';
 import { RequestLoggerMiddleware } from '@middlewares';
 import { UserModule } from '@use-cases/users';
 import { AccountModule } from '@use-cases/accounts';
+import { CommentModule } from '@use-cases/comments';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AccountModule } from '@use-cases/accounts';
     DbCollectionModule,
     UserModule,
     AccountModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [],
