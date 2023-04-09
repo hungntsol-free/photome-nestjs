@@ -61,6 +61,7 @@ export class CommentService {
       );
 
       if (updateResult.acknowledged) {
+        newComment.id = saveResult.id;
         return { msg: 'Success', cmt: newComment };
       }
     } catch (error) {

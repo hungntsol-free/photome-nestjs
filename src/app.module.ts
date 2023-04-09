@@ -4,9 +4,11 @@ import { NestModule } from '@nestjs/common';
 import { DbCollectionModule } from '@collections';
 import { AppLoggerModule } from '@providers/logger';
 import { RequestLoggerMiddleware } from '@middlewares';
+
 import { UserModule } from '@use-cases/users';
 import { AccountModule } from '@use-cases/accounts';
 import { CommentModule } from '@use-cases/comments';
+import { FollowModule } from '@use-cases/follows';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { CommentModule } from '@use-cases/comments';
     UserModule,
     AccountModule,
     CommentModule,
+    FollowModule,
   ],
   controllers: [],
   providers: [],
