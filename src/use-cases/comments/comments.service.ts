@@ -5,6 +5,7 @@ import {
 import { Injectable, Scope, BadRequestException } from '@nestjs/common';
 import { InjectLoggerContext, Logger } from '@providers/logger';
 import { Comment } from '@schemas';
+import { MessageResponse, MsgResponse } from '@use-cases/response.model';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class CommentService {
@@ -16,7 +17,7 @@ export class CommentService {
 
   async getAllOfNewFeed(
     idNewFeed: string,
-  ): Promise<{ msg: string; comment: Comment[] }> {
+  ): Promise<MessageResponse & Record<'comment', Comment[]>> {
     const comments = await this.commentCollection
       .asModel()
       .find({ id_Newfeed: idNewFeed })
@@ -33,17 +34,17 @@ export class CommentService {
     idUser: string,
     idNewFeed: string,
     comment: string,
-  ): Promise<{ msg: string; cmt: any }> {
+  ): Promise<MessageResponse & Record<'cmt', Comment>> {
     const user = await this.commentCollection.findByIdAsync(idUser);
 
     if (!user) {
-      throw new BadRequestException({ msg: 'User not found' });
+      throw new BadRequestException(MsgResponse('User not found'));
     }
 
     const newFeed = await this.newFeedCollection.findByIdAsync(idNewFeed);
 
     if (!newFeed) {
-      throw new BadRequestException({ msg: 'NewFeed not found' });
+      throw new BadRequestException(MsgResponse('NewFeed not found'));
     }
 
     const newComment = new Comment(idUser, idNewFeed, comment);
@@ -69,7 +70,9 @@ export class CommentService {
 
       await this.commentCollection.removeAsync({ id: saveResult.id });
 
-      throw new BadRequestException('Comment success but update new feed fail');
+      throw new BadRequestException(
+        MsgResponse('Comment success but update new feed fail'),
+      );
     }
   }
 
@@ -77,11 +80,11 @@ export class CommentService {
     idUser: string,
     idNewFeed: string,
     idComment: string,
-  ): Promise<{ msg: string }> {
+  ): Promise<MessageResponse> {
     const newFeed = await this.newFeedCollection.findByIdAsync(idNewFeed);
 
     if (!newFeed) {
-      throw new BadRequestException({ msg: 'New feed not found' });
+      throw new BadRequestException(MsgResponse('New feed not found'));
     }
 
     const deleteCommentResult = await this.commentCollection.removeAsync({

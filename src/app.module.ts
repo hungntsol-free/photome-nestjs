@@ -9,6 +9,7 @@ import { UserModule } from '@use-cases/users';
 import { AccountModule } from '@use-cases/accounts';
 import { CommentModule } from '@use-cases/comments';
 import { FollowModule } from '@use-cases/follows';
+import { LikeModule } from '@use-cases/likes';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FollowModule } from '@use-cases/follows';
     AccountModule,
     CommentModule,
     FollowModule,
+    LikeModule,
   ],
   controllers: [],
   providers: [],

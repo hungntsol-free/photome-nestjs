@@ -1,11 +1,12 @@
 import { FollowCollectionProvider } from '@collections/providers';
 import { Injectable, Scope } from '@nestjs/common';
+import { MessageResponseAny } from '@use-cases/response.model';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class FollowService {
   constructor(private readonly followCollection: FollowCollectionProvider) {}
 
-  async getAllOfUser(idUser: string) {
+  async getAllOfUser(idUser: string): Promise<MessageResponseAny> {
     const userFollow = await this.followCollection
       .asModel()
       .findOne({ id_User: idUser })
@@ -15,6 +16,6 @@ export class FollowService {
       return { msg: 'Error' };
     }
 
-    return userFollow;
+    return { follow: userFollow };
   }
 }
