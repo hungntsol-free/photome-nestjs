@@ -18,13 +18,13 @@ import {
   UserSchema,
 } from '@schemas';
 import {
-  CommentCollectionProvider,
-  FollowCollectionProvider,
-  LikeCollectionProvider,
-  NewFeedCollectionProvider,
-  PostCollectionProvider,
-  ProfileCollectionProvider,
-  UserCollectionProvider,
+  CommentModelService,
+  FollowModelService,
+  LikeModelService,
+  NewFeedModelService,
+  PostModelService,
+  ProfileModelService,
+  UserModelService,
 } from './providers';
 
 @Global()
@@ -34,6 +34,7 @@ import {
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB__CONNECTION_STRING'),
+        poolSize: 10,
       }),
       inject: [ConfigService],
     }),
@@ -48,22 +49,22 @@ import {
     ]),
   ],
   exports: [
-    CommentCollectionProvider,
-    FollowCollectionProvider,
-    LikeCollectionProvider,
-    NewFeedCollectionProvider,
-    PostCollectionProvider,
-    ProfileCollectionProvider,
-    UserCollectionProvider,
+    CommentModelService,
+    FollowModelService,
+    LikeModelService,
+    NewFeedModelService,
+    PostModelService,
+    ProfileModelService,
+    UserModelService,
   ],
   providers: [
-    CommentCollectionProvider,
-    FollowCollectionProvider,
-    LikeCollectionProvider,
-    NewFeedCollectionProvider,
-    PostCollectionProvider,
-    ProfileCollectionProvider,
-    UserCollectionProvider,
+    CommentModelService,
+    FollowModelService,
+    LikeModelService,
+    NewFeedModelService,
+    PostModelService,
+    ProfileModelService,
+    UserModelService,
   ],
 })
 export class DbCollectionModule {}

@@ -1,12 +1,12 @@
 import { Injectable, Scope } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from '@schemas';
+import { Post } from '@schemas';
 import mongoose from 'mongoose';
 import { PersistData } from '../persists';
 
 @Injectable({ scope: Scope.TRANSIENT })
-export class UserCollectionProvider extends PersistData<User> {
-  constructor(@InjectModel(User.name) model: mongoose.Model<User>) {
+export class PostModelService extends PersistData<Post> {
+  constructor(@InjectModel(Post.name) model: mongoose.Model<Post>) {
     super(model);
   }
 }

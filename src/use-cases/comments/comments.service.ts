@@ -1,6 +1,6 @@
 import {
-  CommentCollectionProvider,
-  NewFeedCollectionProvider,
+  CommentModelService,
+  NewFeedModelService,
 } from '@collections/providers';
 import { Injectable, Scope, BadRequestException } from '@nestjs/common';
 import { InjectLoggerContext, Logger } from '@providers/logger';
@@ -10,8 +10,8 @@ import { MessageResponse, MsgResponse } from '@use-cases/response.model';
 @Injectable({ scope: Scope.TRANSIENT })
 export class CommentService {
   constructor(
-    private readonly commentCollection: CommentCollectionProvider,
-    private readonly newFeedCollection: NewFeedCollectionProvider,
+    private readonly commentCollection: CommentModelService,
+    private readonly newFeedCollection: NewFeedModelService,
     @InjectLoggerContext(CommentService.name) private readonly logger: Logger,
   ) {}
 

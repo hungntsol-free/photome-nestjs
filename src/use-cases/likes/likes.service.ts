@@ -1,7 +1,7 @@
 import {
-  LikeCollectionProvider,
-  NewFeedCollectionProvider,
-  UserCollectionProvider,
+  LikeModelService,
+  NewFeedModelService,
+  UserModelService,
 } from '@collections/providers';
 import { Injectable, Scope } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
@@ -13,9 +13,9 @@ import { MessageResponse, MsgResponse } from '@use-cases/response.model';
 export class LikeService {
   constructor(
     @InjectLoggerContext(LikeService.name) private readonly logger: Logger,
-    private readonly likeCollection: LikeCollectionProvider,
-    private readonly userCollection: UserCollectionProvider,
-    private readonly newFeedCollection: NewFeedCollectionProvider,
+    private readonly likeCollection: LikeModelService,
+    private readonly userCollection: UserModelService,
+    private readonly newFeedCollection: NewFeedModelService,
   ) {}
 
   async get(

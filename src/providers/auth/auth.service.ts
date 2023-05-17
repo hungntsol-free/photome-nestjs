@@ -8,7 +8,7 @@ import {
   InternalServerErrorException,
   Scope,
 } from '@nestjs/common';
-import { UserCollectionProvider } from '@collections/providers';
+import { UserModelService } from '@collections/providers';
 import { InjectLoggerContext, Logger } from '@providers/logger';
 import { User } from '@schemas';
 import * as argon2 from 'argon2';
@@ -20,7 +20,7 @@ export class AuthService {
   private readonly CREDENTIAL_INCORRECT_ERROR = "Invalid credentials'";
 
   constructor(
-    private readonly collection: UserCollectionProvider,
+    private readonly collection: UserModelService,
     private readonly jwtService: JwtService,
     @InjectLoggerContext(AuthService.name) private readonly logger: Logger,
   ) {}
