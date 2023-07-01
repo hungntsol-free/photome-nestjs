@@ -24,7 +24,8 @@
       "@providers/*": ["src/providers/*"],
       "@schemas": ["src/schemas"],
       "@use-cases": ["src/use-cases"],
-      "@use-cases/*": ["src/use-cases/*"]
+      "@use-cases/*": ["src/use-cases/*"],
+      "@s3-storage": ["src/s3-storage"]
     }
   }
 }

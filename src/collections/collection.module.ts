@@ -34,7 +34,6 @@ import {
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB__CONNECTION_STRING'),
-        poolSize: 10,
       }),
       inject: [ConfigService],
     }),

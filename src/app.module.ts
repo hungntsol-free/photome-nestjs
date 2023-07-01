@@ -4,6 +4,7 @@ import { NestModule } from '@nestjs/common';
 import { DbCollectionModule } from '@collections';
 import { AppLoggerModule } from '@providers/logger';
 import { RequestLoggerMiddleware } from '@middlewares';
+import { AWSS3StorageModule } from '@s3-storage';
 
 import { UserModule } from '@use-cases/users';
 import { AccountModule } from '@use-cases/accounts';
@@ -21,6 +22,7 @@ import { LikeModule } from '@use-cases/likes';
     CommentModule,
     FollowModule,
     LikeModule,
+    AWSS3StorageModule,
   ],
   controllers: [],
   providers: [],
